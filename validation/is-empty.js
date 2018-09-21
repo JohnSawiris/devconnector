@@ -1,3 +1,4 @@
+// Returns true if empty & false if is full
 const isEmpty = value =>
   value === undefined ||
   value === null ||
