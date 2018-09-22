@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 });
 
 // @route   GET api/posts/:id
-// @desc    Get Posts
+// @desc    Get Post
 // @access  Public
 router.get("/:id", (req, res) => {
   Post.findById(req.params.id)
@@ -146,6 +146,73 @@ router.post(
         })
         .catch(err => res.status(404).json({ postnotfound: "No post found" }));
     });
+  }
+);
+
+// @route   POST api/posts/comment/:id
+// @desc    Comment to a post
+// @access  Private
+router.post(
+  "/comment/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validatePostnput(req.body);
+
+    // Check validation
+    if (!isValid) {
+      // If any errors, send 400 with errors
+      return res.status(404).json(errors);
+    }
+
+    Post.findById(req.params.id)
+      .then(post => {
+        const newComment = {
+          text: req.body.text,
+          name: req.body.name,
+          avatar: req.body.avatar,
+          user: req.user.id
+        };
+
+        // Add to comments array
+        post.comments.unshift(newComment);
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({ postnotfound: "No post found" }));
+  }
+);
+
+// @route   DELETE api/posts/comment/:id/:comment_id
+// @desc    Delete a comment to a post
+// @access  Private
+router.delete(
+  "/comment/:id/:comment_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.id)
+      .then(post => {
+        // Check to see if the comment exists
+        if (
+          post.comments.find(
+            comment => comment._id.toString() === req.params.comment_id
+          ) === undefined
+        ) {
+          return res
+            .status(404)
+            .json({ commentnotexists: "Comment does not exist" });
+        }
+
+        // Get remove index
+        const removeIndex = post.comments
+          .map(item => item._id.toString())
+          .indexOf(req.params.comment_id);
+
+        // Splice comment out of array
+        post.comments.splice(removeIndex, 1);
+
+        //Save
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({ postnotfound: "No post found" }));
   }
 );
 
