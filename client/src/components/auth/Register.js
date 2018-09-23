@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { connect } from "react-redux";
-import { registeruser } from "../../redux/actions/authActions";
+import { registerUser } from "../../redux/actions/authActions";
 
 export class Register extends Component {
   state = {
@@ -139,5 +139,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { registeruser }
+  { registerUser }
 )(Register);
