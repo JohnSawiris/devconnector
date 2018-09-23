@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
 import classnames from "classnames";
+import { connect } from "react-redux";
+import { registeruser } from "../../redux/actions/authActions";
 
 export class Register extends Component {
   state = {
@@ -10,6 +12,12 @@ export class Register extends Component {
     password2: "",
     errors: {}
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.errors !== prevProps.errors) {
+      this.setState({ errors: this.props.errors });
+    }
+  }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -25,14 +33,14 @@ export class Register extends Component {
       password2: this.state.password2
     };
 
-    axios
-      .post("/api/users/register", newUser)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+    this.props.registeruser(newUser, this.props.history);
   };
 
   render() {
     const { errors } = this.state;
+    console.log(this.props);
+
+    const { user } = this.props.auth;
 
     return (
       <div className="register">
@@ -104,8 +112,8 @@ export class Register extends Component {
                     value={this.state.password2}
                     onChange={this.onChange}
                   />
-                  {errors.password && (
-                    <div className="invalid-feedback">{errors.password}</div>
+                  {errors.password2 && (
+                    <div className="invalid-feedback">{errors.password2}</div>
                   )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
@@ -118,4 +126,18 @@ export class Register extends Component {
   }
 }
 
-export default Register;
+Register.propTypes = {
+  registeruser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { registeruser }
+)(Register);
