@@ -13,6 +13,12 @@ export class Register extends Component {
     errors: {}
   };
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenicated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.errors !== prevProps.errors) {
       this.setState({ errors: this.props.errors });
@@ -33,14 +39,11 @@ export class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registeruser(newUser, this.props.history);
+    this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
     const { errors } = this.state;
-    console.log(this.props);
-
-    const { user } = this.props.auth;
 
     return (
       <div className="register">
@@ -127,7 +130,7 @@ export class Register extends Component {
 }
 
 Register.propTypes = {
-  registeruser: PropTypes.func.isRequired,
+  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
