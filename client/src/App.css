@@ -26,6 +26,10 @@ img {
   width: 100%;
 }
 
+.avatar {
+  cursor: pointer;
+}
+
 .landing {
   position: relative;
   background: url("./img/showcase.jpg") no-repeat;

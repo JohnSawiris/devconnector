@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+
+import { setCurrentUser, loginUser } from "./redux/actions/authActions";
+import { clearCurrentProfile } from "./redux/actions/profileAction";
+
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
-import { setCurrentUser, loginUser } from "./redux/actions/authActions";
-import { Provider } from "react-redux";
-import store from "./redux/store";
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -12,6 +15,7 @@ import Landing from "./components/layout/Landing";
 import Footer from "./components/layout/Footer";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import Dashboard from "./components/dashboard/Dashboard";
 
 // Styles
 import "./App.css";
@@ -31,7 +35,7 @@ if (localStorage.jwtToken) {
     // Logout user
     store.dispatch(loginUser());
     // @Todo: Clear current Profile
-
+    store.dispatch(clearCurrentProfile());
     // Redirect to login
     window.location.href = "/login";
   }
@@ -49,6 +53,7 @@ class App extends Component {
               <div className="container">
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/dashboard" component={Dashboard} />
               </div>
             </main>
             <Footer />
