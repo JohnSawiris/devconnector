@@ -109,8 +109,6 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateProfileInput(req.body);
-    console.log(req);
-
     // Check Validatio
     if (!isValid) {
       // Return errors with 400 status
@@ -267,8 +265,6 @@ router.delete(
   "/education/:edu_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log(req.body);
-
     Profile.findOne({ user: req.user.id })
       .then(profile => {
         // Get remove education

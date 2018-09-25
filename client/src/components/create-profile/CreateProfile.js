@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { createProfile } from "../../redux/actions/profileAction";
 
 // Components
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -13,7 +14,7 @@ class CreateProfile extends Component {
     displaySocialInputs: false,
     handle: "",
     company: "",
-    wensite: "",
+    website: "",
     location: "",
     status: "",
     skills: "",
@@ -27,9 +28,31 @@ class CreateProfile extends Component {
     errors: ""
   };
 
+  componentDidUpdate(prevState) {
+    if (this.props.errors !== prevState.errors) {
+      this.setState({ errors: this.props.errors });
+    }
+  }
+
   onSubmit = e => {
     e.preventDefault();
-    console.log("Submit");
+
+    const profileData = {
+      handle: this.state.handle,
+      company: this.state.company,
+      website: this.state.website,
+      location: this.state.location,
+      status: this.state.status,
+      skills: this.state.skills,
+      githubusername: this.state.githubusername,
+      bio: this.state.bio,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram
+    };
+    this.props.createProfile(profileData, this.props.history);
   };
 
   onChange = e => {
@@ -178,6 +201,7 @@ class CreateProfile extends Component {
                 />
                 <div className="mb-3">
                   <button
+                    type="button"
                     onClick={() => {
                       this.setState(prevState => ({
                         displaySocialInputs: !prevState.displaySocialInputs
@@ -214,4 +238,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(
+  mapStateToProps,
+  { createProfile }
+)(CreateProfile);
