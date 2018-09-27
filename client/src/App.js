@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 
-import { setCurrentUser, loginUser } from "./redux/actions/authActions";
+import { setCurrentUser, logoutUser } from "./redux/actions/authActions";
 import { clearCurrentProfile } from "./redux/actions/profileAction";
 
 import jwt_decode from "jwt-decode";
@@ -19,6 +19,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
+import EditProfile from "./components/edit-profile/EditProfile";
 
 // Styles
 import "./App.css";
@@ -36,7 +37,7 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     // Logout user
-    store.dispatch(loginUser());
+    store.dispatch(logoutUser());
     // @Todo: Clear current Profile
     store.dispatch(clearCurrentProfile());
     // Redirect to login
@@ -64,6 +65,13 @@ class App extends Component {
                     exact
                     path="/create-profile"
                     component={CreateProfile}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/edit-profile"
+                    component={EditProfile}
                   />
                 </Switch>
               </div>

@@ -2,13 +2,22 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../redux/actions/profileAction";
+import {
+  getCurrentProfile,
+  deleteAccount
+} from "../../redux/actions/profileAction";
+// Components
 import Spinner from "../common/Spinner";
+import ProfileActions from "./ProfileActions";
 
 export class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
   }
+
+  onDeleteClick = e => {
+    this.props.deleteAccount();
+  };
 
   render() {
     const { user } = this.props.auth;
@@ -21,17 +30,35 @@ export class Dashboard extends Component {
     } else {
       // Check if logged in user has profile data
       if (Object.keys(profile).length > 0) {
-        dashboardContent = <h4>Display Profile</h4>;
+        dashboardContent = (
+          <React.Fragment>
+            <p className="lead text-muted">
+              Welcome
+              <Link to={`/profile/${profile.handle}`}> {user.name}</Link>
+            </p>
+            <ProfileActions />
+            {/* TODO: Experience and Education */}
+            <div style={{ marginBottom: "60px" }}>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={this.onDeleteClick}
+              >
+                Delete My Account
+              </button>
+            </div>
+          </React.Fragment>
+        );
       } else {
         // User is logged in but has no profile
         dashboardContent = (
-          <div>
+          <React.Fragment>
             <p className="lead text-muted">Welcome {user.name}</p>
             <p>You have not yet setup a profile, please add some info</p>
             <Link to="/create-profile" className="btn btn-lg btn-info">
               Create Profile
             </Link>
-          </div>
+          </React.Fragment>
         );
       }
     }
@@ -53,6 +80,7 @@ export class Dashboard extends Component {
 
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
 };
@@ -64,5 +92,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteAccount }
 )(Dashboard);
