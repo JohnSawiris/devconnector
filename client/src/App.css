@@ -65,3 +65,7 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+table.table tbody td {
+  color: #78909c;
+}

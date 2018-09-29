@@ -6,7 +6,9 @@ import {
   getCurrentProfile,
   deleteAccount
 } from "../../redux/actions/profileAction";
+
 // Components
+import Experience from "./Experience";
 import Spinner from "../common/Spinner";
 import ProfileActions from "./ProfileActions";
 
@@ -37,7 +39,7 @@ export class Dashboard extends Component {
               <Link to={`/profile/${profile.handle}`}> {user.name}</Link>
             </p>
             <ProfileActions />
-            {/* TODO: Experience and Education */}
+            <Experience experience={profile.experience} />
             <div style={{ marginBottom: "60px" }}>
               <button
                 type="button"
