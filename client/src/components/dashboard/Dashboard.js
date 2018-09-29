@@ -9,6 +9,7 @@ import {
 
 // Components
 import Experience from "./Experience";
+import Education from "./Education";
 import Spinner from "../common/Spinner";
 import ProfileActions from "./ProfileActions";
 
@@ -40,6 +41,7 @@ export class Dashboard extends Component {
             </p>
             <ProfileActions />
             <Experience experience={profile.experience} />
+            <Education education={profile.education} />
             <div style={{ marginBottom: "60px" }}>
               <button
                 type="button"
