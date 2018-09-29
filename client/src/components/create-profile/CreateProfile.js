@@ -28,8 +28,8 @@ class CreateProfile extends Component {
     errors: ""
   };
 
-  componentDidUpdate(prevState) {
-    if (this.props.errors !== prevState.errors) {
+  componentDidUpdate(prevProps) {
+    if (this.props.errors !== prevProps.errors) {
       this.setState({ errors: this.props.errors });
     }
   }
