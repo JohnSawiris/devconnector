@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import isEmpty from "../../validation/isEmpty";
-import Profile from "./Profile";
 
 const ProfileAbout = props => {
   const { profile } = props;

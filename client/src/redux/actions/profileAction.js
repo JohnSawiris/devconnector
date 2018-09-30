@@ -49,6 +49,7 @@ export const setProfileLoading = () => ({
 
 // Get Profiles
 export const getProfiles = () => dispatch => {
+  dispatch(setProfileLoading());
   axios
     .get("/api/profile/all")
     .then(res =>
@@ -67,6 +68,7 @@ export const getProfiles = () => dispatch => {
 
 // Get profile by handle
 export const getProfileByHandle = handle => dispatch => {
+  dispatch(setProfileLoading());
   axios
     .get(`/api/profile/handle/${handle}`)
     .then(res =>
