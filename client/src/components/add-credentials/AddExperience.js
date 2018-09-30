@@ -20,6 +20,12 @@ class AddExperience extends Component {
     disabled: false
   };
 
+  static propTypes = {
+    profile: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+    addExperience: PropTypes.func.isRequired
+  };
+
   componentDidUpdate(prevProps) {
     if (this.props.errors !== prevProps.errors) {
       this.setState({ errors: this.props.errors });
@@ -142,12 +148,6 @@ class AddExperience extends Component {
     );
   }
 }
-
-AddExperience.propTypes = {
-  profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  addExperience: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   profile: state.profile,

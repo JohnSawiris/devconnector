@@ -13,6 +13,12 @@ export class Login extends Component {
     errors: {}
   };
 
+  static propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+  };
+
   componentDidMount() {
     if (this.props.auth.isAuthenicated) {
       this.props.history.push("/dashboard");
@@ -82,12 +88,6 @@ export class Login extends Component {
     );
   }
 }
-
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   auth: state.auth,

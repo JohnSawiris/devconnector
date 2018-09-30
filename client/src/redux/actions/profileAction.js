@@ -1,11 +1,14 @@
 import axios from "axios";
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
   SET_CURRENT_USER
 } from "./types";
+
+/***************** GETTING ACTIONS *******************/
 
 // Get current profile
 export const getCurrentProfile = () => dispatch => {
@@ -44,6 +47,26 @@ export const setProfileLoading = () => ({
   type: PROFILE_LOADING
 });
 
+// Get Profiles
+export const getProfiles = () => dispatch => {
+  axios
+    .get("/api/profile/all")
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      })
+    );
+};
+
+/***************** UPDATING ACTIONS *******************/
+
 // Add experience
 export const addExperience = (expData, history) => dispatch => {
   axios
@@ -69,6 +92,8 @@ export const addEducation = (eduData, history) => dispatch => {
       })
     );
 };
+
+/***************** DELETING ACTIONS *******************/
 
 // Clear profile
 export const clearCurrentProfile = () => ({

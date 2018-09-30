@@ -4,6 +4,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 export class Landing extends Component {
+  static propTypes = {
+    auth: PropTypes.object.isRequired
+  };
+
   componentDidMount() {
     if (this.props.auth.isAuthenicated) {
       this.props.history.push("/dashboard");
@@ -38,10 +42,6 @@ export class Landing extends Component {
     );
   }
 }
-
-Landing.propTypes = {
-  auth: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   auth: state.auth

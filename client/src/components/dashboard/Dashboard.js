@@ -14,6 +14,13 @@ import Spinner from "../common/Spinner";
 import ProfileActions from "./ProfileActions";
 
 export class Dashboard extends Component {
+  static propTypes = {
+    getCurrentProfile: PropTypes.func.isRequired,
+    deleteAccount: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired
+  };
+
   componentDidMount() {
     this.props.getCurrentProfile();
   }
@@ -81,13 +88,6 @@ export class Dashboard extends Component {
     );
   }
 }
-
-Dashboard.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
-  deleteAccount: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   auth: state.auth,

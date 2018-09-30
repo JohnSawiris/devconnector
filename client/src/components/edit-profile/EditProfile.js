@@ -14,7 +14,7 @@ import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import InputGroup from "../common/InputGroup";
 import SelectListGroup from "../common/SelectListGroup";
 
-class CreateProfile extends Component {
+class EditProfile extends Component {
   state = {
     displaySocialInputs: false,
     handle: "",
@@ -31,6 +31,13 @@ class CreateProfile extends Component {
     youtube: "",
     instagram: "",
     errors: ""
+  };
+
+  static propTypes = {
+    createProfile: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
   };
 
   componentDidMount() {
@@ -86,7 +93,8 @@ class CreateProfile extends Component {
         twitter: profile.twitter,
         facebook: profile.facebook,
         linkedin: profile.linkedin,
-        youtube: profile.youtube
+        youtube: profile.youtube,
+        instagram: profile.instagram
       });
     }
   }
@@ -285,13 +293,6 @@ class CreateProfile extends Component {
   }
 }
 
-CreateProfile.propTypes = {
-  createProfile: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
   profile: state.profile,
   errors: state.errors
@@ -300,4 +301,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { createProfile, getCurrentProfile }
-)(CreateProfile);
+)(EditProfile);
